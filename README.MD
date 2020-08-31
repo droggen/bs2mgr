@@ -1,6 +1,9 @@
    bs2mgr 
 Management tool for BlueSense nodes
 
+![bs2mgr](/docs/img/s0.png)![bs2mgr](/docs/img/s1.png)
+
+
    Copyright (C) 2017-20:
          Daniel Roggen, droggen@gmail.com
 
