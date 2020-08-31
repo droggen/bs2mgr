@@ -1,5 +1,4 @@
-   bs2mgr 
-Management tool for BlueSense nodes
+# bs2mgr: Management tool for BlueSense nodes
 
 ![bs2mgr](/docs/img/s0.png)![bs2mgr](/docs/img/s1.png)
 
@@ -11,8 +10,9 @@ Management tool for BlueSense nodes
 History
 -------
 
-v 1.1: Added support for filtering USB ST virtual com port; bug fixes.
-v 1.0: Initial release
+* 1.1: Added support for filtering USB ST virtual com port; bug fixes.
+
+* 1.0: Initial release
 
 
 
