@@ -39,42 +39,54 @@ PortWindow::~PortWindow()
 {
     delete ui;
 }
-QList<QSerialPortInfo> PortWindow::listPorts(bool ftdionly)
+#ifndef Q_OS_WINRT
+QList<QSerialPortInfo> PortWindow::listPorts(bool ftdionly,bool stonly)
 {
+    // ftdionly and stonly are mutually exclusive
+    printf("listPorts: ftdionly: %d stonly: %d\n",ftdionly,stonly);
+
     // Fill the dialog
     QList<QSerialPortInfo> portsall = QSerialPortInfo::availablePorts();
 
     QList<QSerialPortInfo> ports;
     foreach (auto p, portsall) {
-        if(!ftdionly || (ftdionly && p.manufacturer()=="FTDI"))
-        {
-            printf("Append %s\n",p.manufacturer().toStdString().c_str());
-            ports.append(p);
-        }
         printf("%s: %d\n",p.manufacturer().toStdString().c_str(),p.manufacturer()=="FTDI");
+        printf("VID: %d\n",p.vendorIdentifier());
+
+        if(ftdionly && p.manufacturer()!="FTDI")
+            continue;
+        if(stonly && p.vendorIdentifier()!=1155)
+            continue;
+
+
+
+        printf("Append %s\n",p.manufacturer().toStdString().c_str());
+        ports.append(p);
+
+        //printf("%s: %d\n",p.manufacturer().toStdString().c_str(),p.manufacturer()=="FTDI");
+
 
 
     }
     return ports;
 }
-QList<QString> PortWindow::getPorts(bool ftdionly)
-{
-    QList<QSerialPortInfo> ports = listPorts(ftdionly);
-    QList<QString> pn;
-
-    for (int i = 0; i < ports.size(); i++)
-    {
-        pn.append(ports.at(i).portName());
-    }
-    return pn;
-}
+#endif
 
 
+#ifdef Q_OS_WINRT
 void PortWindow::populate()
 {
-    bool ftdionly = ui->uicbFTDIOnly->isChecked();
 
-    QList<QSerialPortInfo> ports = listPorts(ftdionly);
+}
+#else
+void PortWindow::populate()
+{
+    bool ftdionly = ui->uirbShowFTDI->isChecked();
+    bool stonly = ui->uirbShowST->isChecked();
+    int all = (int)ui->uirbShowAll->isChecked();
+
+
+    QList<QSerialPortInfo> ports = listPorts(ftdionly,stonly);
 
     ui->uitwPorts->setRowCount(0);
 
@@ -114,7 +126,7 @@ void PortWindow::populate()
          ui->uitwPorts->selectRow(0);
      }
 }
-
+#endif
 void PortWindow::on_uitwPorts_cellDoubleClicked(int row, int column)
 {
     printf("cell double clicked\n");
@@ -177,7 +189,41 @@ QList<QString> PortWindow::getSelectedPorts()
 
 
 
-void PortWindow::on_uicbFTDIOnly_clicked()
+
+
+
+
+
+QList<QString> PortWindow::getPorts(bool ftdionly,bool stonly)
+{
+#ifndef Q_OS_WINRT
+    QList<QSerialPortInfo> ports = listPorts(ftdionly,stonly);
+    QList<QString> pn;
+
+    for (int i = 0; i < ports.size(); i++)
+    {
+        pn.append(ports.at(i).portName());
+    }
+    return pn;
+#else
+    QList<QString> pn;
+    return pn;
+#endif
+}
+
+
+
+void PortWindow::on_uirbShowAll_clicked()
+{
+    populate();
+}
+
+void PortWindow::on_uirbShowFTDI_clicked()
+{
+    populate();
+}
+
+void PortWindow::on_uirbShowST_clicked()
 {
     populate();
 }

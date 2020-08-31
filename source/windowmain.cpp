@@ -42,8 +42,9 @@ TODO:
 
 
 
-
-
+#include <QtGui>
+#include <QMessageBox>
+#include <QFileDialog>
 #include "windowmain.h"
 #include "ui_windowmain.h"
 #include "portwindow.h"
@@ -122,16 +123,27 @@ WindowMain::~WindowMain()
 }
 void WindowMain::on_uipbAddAllUSB_clicked()
 {
-    QList<QString> ports = PortWindow::getPorts(true);
+#ifndef Q_OS_WINRT
+    QList<QString> ports = PortWindow::getPorts(true,false);
     addUSBToPortList(ports);
     printDevices(devices);
     populateDevices();
+#endif
+}
+void WindowMain::on_uipbAddAllUSBST_clicked()
+{
+#ifndef Q_OS_WINRT
+    QList<QString> ports = PortWindow::getPorts(false,true);
+    addUSBToPortList(ports);
+    printDevices(devices);
+    populateDevices();
+#endif
 }
 void WindowMain::addUSBToPortList(const QList<QString> &ports)
 {
     foreach (auto p, ports)
     {
-        DEVICE d;
+        DDEVICE d;
         d.type = DEVICE_SER;
         d.port = p;
         devices.append(d);
@@ -142,7 +154,7 @@ void WindowMain::addBTToPortList(const QList<QString> &ports)
 {
     foreach (auto p, ports)
     {
-        DEVICE d;
+        DDEVICE d;
         d.type = DEVICE_BT;
         d.mac = p;
         devices.append(d);
@@ -208,7 +220,7 @@ void WindowMain::on_uipbUp_clicked()
 
     //printf("Device length: %d\n",Devices.length());
 
-    DEVICE d = devices[row];
+    DDEVICE d = devices[row];
     devices[row] = devices[row-1];
     devices[row-1] = d;
 
@@ -226,7 +238,7 @@ void WindowMain::on_uipbDown_clicked()
        return;
 
 
-    DEVICE d = devices[row];
+    DDEVICE d = devices[row];
     devices[row] = devices[row+1];
     devices[row+1] = d;
 
@@ -264,7 +276,7 @@ void WindowMain::on_uipbRemove_clicked()
     printf("row: %d\n",row);
     if(row!=-1)
     {
-        DEVICE d = devices[row];
+        DDEVICE d = devices[row];
         printf("Remove device row %d: %s\n",row,Device2Str(d).toStdString().c_str());
 
         devices.removeAt(row);
@@ -423,6 +435,10 @@ void WindowMain::on_uipbCommandGetTime_clicked()
 void WindowMain::on_uipbCommandGetDate_clicked()
 {
     doCommand(DEVICE_ACTION_CUSTOM,"D\n");
+}
+void WindowMain::on_uipbCommangGetDateNew_clicked()
+{
+    doCommand(DEVICE_ACTION_CUSTOM,"t\n");
 }
 void WindowMain::on_uipbCommandCustom_clicked()
 {
@@ -1044,3 +1060,6 @@ void WindowMain::openFileNameReady(QString fileName)
         qDebug() << "User did not choose file";
     }
 }*/
+
+
+

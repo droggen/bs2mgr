@@ -45,7 +45,7 @@ public:
     Worker();
     ~Worker();
 
-    void init(const DEVICE &d, const DEVICE_ACTION &action, const QString &action_param, int connect_timeout=0, int action_timeout=0);
+    void init(const DDEVICE &d, const DEVICE_ACTION &action, const QString &action_param, int connect_timeout=0, int action_timeout=0);
     void run();
     DEVICE_ACTION_RESULT getReturnStatus();
     QString getReturnStatusParam();
@@ -55,7 +55,7 @@ private:
 
     ConnectionData conn;
     IoDevice iodev;
-    DEVICE device;
+    DDEVICE device;
     DEVICE_ACTION action;
     QString action_param;
     int action_timeout;
@@ -102,7 +102,7 @@ public:
     Controller();
     ~Controller();
 
-    void start(const DEVICE &d, const DEVICE_ACTION &action, const QString &action_param, int connect_timeout=0, int action_timeout=0);
+    void start(const DDEVICE &d, const DEVICE_ACTION &action, const QString &action_param, int connect_timeout=0, int action_timeout=0);
     void stop();
 
 public slots:

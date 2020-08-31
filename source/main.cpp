@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     qputenv("QT_USE_ANDROID_NATIVE_STYLE", "1");
 
     //qRegisterMetaType
-    qRegisterMetaType<DEVICE>("DEVICE");
+    qRegisterMetaType<DDEVICE>("DDEVICE");
     qRegisterMetaType<DEVICE_ACTION>("DEVICE_ACTION");
     qRegisterMetaType<DEVICE_ACTION_RESULT>("DEVICE_ACTION_RESULT");
 

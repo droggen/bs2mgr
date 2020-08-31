@@ -26,29 +26,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 typedef enum {
     DEVICE_BT,DEVICE_SER
-} DEVICE_TYPE;
+} DDEVICE_TYPE;
 
 typedef struct
 {
-    DEVICE_TYPE type;
+    DDEVICE_TYPE type;
 
     QString port;
     QString mac;
 
     QString name;
     bool ok;
-} DEVICE;
+} DDEVICE;
 
-Q_DECLARE_METATYPE(DEVICE)
+Q_DECLARE_METATYPE(DDEVICE)
 
-bool operator < (const DEVICE &d1, const DEVICE &d2);
-bool operator == (const DEVICE &d1, const DEVICE &d2);
+bool operator < (const DDEVICE &d1, const DDEVICE &d2);
+bool operator == (const DDEVICE &d1, const DDEVICE &d2);
 
-QList<DEVICE> uniqueDevices(QList<DEVICE> din);
-void printDevices(const QList<DEVICE> Devices);
+QList<DDEVICE> uniqueDevices(QList<DDEVICE> din);
+void printDevices(const QList<DDEVICE> Devices);
 
-QString Device2Str(const DEVICE &d);
-QString Device2StrShort(const DEVICE &d);
+QString Device2Str(const DDEVICE &d);
+QString Device2StrShort(const DDEVICE &d);
 
 
 #endif // DEVICE_H

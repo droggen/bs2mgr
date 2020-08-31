@@ -58,14 +58,32 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="uicbFTDIOnly">
-     <property name="text">
-      <string>Only show FTDI</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QRadioButton" name="uirbShowAll">
+       <property name="text">
+        <string>Show all</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="uirbShowFTDI">
+       <property name="text">
+        <string>Only show FTDI</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="uirbShowST">
+       <property name="text">
+        <string>Only show ST</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

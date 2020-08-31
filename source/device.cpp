@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "device.h"
 
 
-bool operator < (const DEVICE &d1, const DEVICE &d2)
+bool operator < (const DDEVICE &d1, const DDEVICE &d2)
 {
     if(d1.type == DEVICE_BT && d2.type == DEVICE_SER)
         return 1;
@@ -35,7 +35,7 @@ bool operator < (const DEVICE &d1, const DEVICE &d2)
 
 }
 
-bool operator == (const DEVICE &d1, const DEVICE &d2)
+bool operator == (const DDEVICE &d1, const DDEVICE &d2)
 {
     if(d1.type != d2.type)
         return false;
@@ -46,9 +46,9 @@ bool operator == (const DEVICE &d1, const DEVICE &d2)
 }
 
 
-QList<DEVICE> uniqueDevices(QList<DEVICE> din)
+QList<DDEVICE> uniqueDevices(QList<DDEVICE> din)
 {
-    QList<DEVICE> dout;
+    QList<DDEVICE> dout;
     foreach(auto d,din)
     {
         if(!dout.contains(d))
@@ -57,7 +57,7 @@ QList<DEVICE> uniqueDevices(QList<DEVICE> din)
     return dout;
 }
 
-void printDevices(const QList<DEVICE> Devices)
+void printDevices(const QList<DDEVICE> Devices)
 {
     printf("Devices: %d\n",Devices.size());
     foreach (auto d, Devices)
@@ -76,7 +76,7 @@ void printDevices(const QList<DEVICE> Devices)
     }
 }
 
-QString Device2Str(const DEVICE &d)
+QString Device2Str(const DDEVICE &d)
 {
     QString str;
     switch(d.type)
@@ -96,7 +96,7 @@ QString Device2Str(const DEVICE &d)
         str += " ("+d.name+")";
     return str;
 }
-QString Device2StrShort(const DEVICE &d)
+QString Device2StrShort(const DDEVICE &d)
 {
     QString str;
     switch(d.type)

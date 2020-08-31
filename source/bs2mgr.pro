@@ -8,6 +8,9 @@ QT       += core gui
 QT += serialport
 QT += bluetooth network
 
+
+winrt: QT -= serialport
+
 android: QT += androidextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

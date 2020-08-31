@@ -20,11 +20,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef __PORTWINDOW_H
 #define __PORTWINDOW_H
 
+#include <QtGlobal>
+
+
 #include <QDialog>
 #include <QTableWidgetItem>
 #include <QList>
+
+#ifndef Q_OS_WINRT
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
+#endif
 
 
 namespace Ui {
@@ -41,7 +47,7 @@ public:
 
     QString getSelectedPort();
     QList<QString> getSelectedPorts();
-    static QList<QString> getPorts(bool ftdionly);
+    static QList<QString> getPorts(bool ftdionly,bool stonly);
 
 
 private slots:
@@ -49,7 +55,11 @@ private slots:
 
     void accept();
 
-    void on_uicbFTDIOnly_clicked();
+    void on_uirbShowAll_clicked();
+
+    void on_uirbShowFTDI_clicked();
+
+    void on_uirbShowST_clicked();
 
 private:
     Ui::PortWindow *ui;
@@ -57,8 +67,12 @@ private:
     QString selectedport;
 
     void populate();
-    static QList<QSerialPortInfo> listPorts(bool ftdionly);
+    #ifndef Q_OS_WINRT
+    static QList<QSerialPortInfo> listPorts(bool ftdionly,bool stonly);
+    #endif
 
 };
+
+
 
 #endif // __PORTWINDOW_H

@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef WINDOWMAIN_H
 #define WINDOWMAIN_H
 
+
 #include <QMainWindow>
 #include <QThread>
 #include "widgetterminal.h"
@@ -136,11 +137,15 @@ private slots:
 
     //void on_pushButton_clicked();
 
+    void on_uipbAddAllUSBST_clicked();
+
+    void on_uipbCommangGetDateNew_clicked();
+
 private:
     Ui::WindowMain *ui;
     Controller controller;
 
-    QList<DEVICE> devices;
+    QList<DDEVICE> devices;
 
     QList<WidgetTerminal*> tabs;
     DEVICE_ACTION currentDeviceAction;      // Command passed to the worker thread for the device

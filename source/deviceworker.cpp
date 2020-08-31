@@ -17,6 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#include <QTimer>
 #include <QTime>
 
 #include "deviceworker.h"
@@ -64,7 +65,7 @@ Worker::~Worker()
     timer->stop();
     delete timer;
 }
-void Worker::init(const DEVICE &d, const DEVICE_ACTION &action, const QString &action_param, int connect_timeout, int action_timeout)
+void Worker::init(const DDEVICE &d, const DEVICE_ACTION &action, const QString &action_param, int connect_timeout, int action_timeout)
 {
     //printf("Worker::init\n");
     // Copy the parameters to local variables; not error checking at this stage.
@@ -87,7 +88,10 @@ void Worker::init(const DEVICE &d, const DEVICE_ACTION &action, const QString &a
 }
 int Worker::getNumCommands(const QString &action_param)
 {
-    const char *str = action_param.toStdString().c_str();
+    //printf("getnumcommands: '%s'\n",action_param.toStdString().c_str());
+    std::string cstr = action_param.toStdString();
+    const char *str = cstr.c_str();
+    //printf("commands again '%s'\n",str);
 
     // Does not process quote modes. Finds number of semicolon delimited commands. Ignores empty commands
     int numcmd=0;           // Number of commands so far
@@ -111,6 +115,7 @@ int Worker::getNumCommands(const QString &action_param)
             }
         }
     }
+    printf("\t%d\n",numcmd);
     return numcmd;
 }
 
@@ -129,12 +134,12 @@ void Worker::run()
     switch(device.type)
     {
         case DEVICE_BT:
-            conn.type = DevBTConnected;
+            conn.type = DevBTConnection;
             conn.ba= QBluetoothAddress(device.mac);
             printf("d.mac: %s\n",device.mac.toStdString().c_str());
             break;
         case DEVICE_SER:
-            conn.type = DevSerialConnected;
+            conn.type = DevSerialConnection;
             conn.port = device.port;
             printf("d.port: %s\n",device.port.toStdString().c_str());
             break;
@@ -145,7 +150,7 @@ void Worker::run()
 
     // Use timer to trigger ourselves in an event loop
     // Bluetooth seems to need a wait time between previous close and new opening -> add delay
-    if(conn.type==DevBTConnected)
+    if(conn.type==DevBTConnection)
         QTimer::singleShot(3000, this, SLOT(doWorkConnect()));
     else
         QTimer::singleShot(0, this, SLOT(doWorkConnect()));
@@ -263,13 +268,28 @@ void Worker::ioerror(QString str)
 
 void Worker::iodevread(QByteArray ba)
 {
+#if 0
+    // This implementation prints data as soon as received
+    // Emit timestamp
+    QTime tcur = QTime::currentTime();
+    emit signalPrintToTerminal(tcur.toString("hh:mm:ss.zzz")+":    ");
+    // Emit received data
     emit signalPrintToTerminal(ba);
+#endif
     std::string str;
 
     linereader.add(std::string(ba.constData()));
 
     while(linereader.getLine(str))
     {
+#if 1
+        // This implementation prints data line by line
+        QTime tcur = QTime::currentTime();
+        emit signalPrintToTerminal(tcur.toString("hh:mm:ss.zzz")+":    ");
+
+        emit signalPrintToTerminal(QString::fromStdString(str)+"\n");
+#endif
+
         // Keep a buffer of a few last lines
         lastLines.push_back(str);
         lastLines.erase(lastLines.begin());
@@ -396,7 +416,7 @@ Controller::~Controller()
 {
     stop();
 }
-void Controller::start(const DEVICE &d,const DEVICE_ACTION &action,const QString &action_param,int connect_timeout,int action_timeout)
+void Controller::start(const DDEVICE &d,const DEVICE_ACTION &action,const QString &action_param,int connect_timeout,int action_timeout)
 {
     // If an existing worker is there, do nothing
     if(worker)

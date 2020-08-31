@@ -17,7 +17,7 @@
    <item>
     <widget class="QPlainTextEdit" name="uiptTerminal">
      <property name="textInteractionFlags">
-      <set>Qt::NoTextInteraction</set>
+      <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>

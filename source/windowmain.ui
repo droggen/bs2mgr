@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>386</width>
+    <width>467</width>
     <height>406</height>
    </rect>
   </property>
@@ -150,7 +150,14 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Add all USB</string>
+                <string>Add FTDI USB</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="uipbAddAllUSBST">
+               <property name="text">
+                <string>Add ST USB</string>
                </property>
               </widget>
              </item>
@@ -163,7 +170,7 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Help</string>
+                <string>?</string>
                </property>
               </widget>
              </item>
@@ -234,24 +241,10 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="1">
-                   <widget class="QPushButton" name="uipbCommandGetDate">
-                    <property name="text">
-                     <string>Date (D)</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="1" column="0">
                    <widget class="QPushButton" name="uipbCommandIdentify">
                     <property name="text">
                      <string>ID (?)</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QPushButton" name="uipbCommandGetPower">
-                    <property name="text">
-                     <string>Power (q)</string>
                     </property>
                    </widget>
                   </item>
@@ -273,6 +266,27 @@
                    <widget class="QPushButton" name="uipbCommandHelp">
                     <property name="text">
                      <string>Help (H)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QPushButton" name="uipbCommandGetPower">
+                    <property name="text">
+                     <string>Power (q)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QPushButton" name="uipbCommandGetDate">
+                    <property name="text">
+                     <string>Date-AVR (D)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QPushButton" name="uipbCommangGetDateNew">
+                    <property name="text">
+                     <string>Date-ARM (t)</string>
                     </property>
                    </widget>
                   </item>
