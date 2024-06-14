@@ -84,6 +84,8 @@ private slots:
     void doWorkTimeoutResponse();
     void doWorkTimeoutConnect();
 
+    void doWorkSendCommand();
+
 public slots:
 
 

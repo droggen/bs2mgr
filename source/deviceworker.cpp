@@ -165,6 +165,7 @@ void Worker::run()
 void Worker::doWorkConnect()
 {
     qDebug("Worker::doWorkConnect");
+    printf("Worker::doWorkConnect");
     emit signalStatus(DEVICE_ACTION_RESULT_CONNECTING,QString("Connecting").toLocal8Bit());
 
     // Starts timer for connection timeout, this must be started before open.
@@ -192,10 +193,16 @@ void Worker::delay(int msec)
 void Worker::ioconnected()
 {
     // Connection didn't timeout - stop timer.
-    printf("Worker::ioconnected: stopping the timer\n");
+    printf("Worker::ioconnected: stopping the connection timeout timer\n");
     timer->stop();
 
     emit signalStatus(DEVICE_ACTION_RESULT_CONNECTED,QString("Connected").toLocal8Bit());
+
+    QTimer::singleShot(1000, this, SLOT(doWorkSendCommand())); // send the command a bit later
+}
+void Worker::doWorkSendCommand()
+{
+    printf("sendCommand\n");
 
     // Select the actions
     switch(action)
@@ -206,6 +213,7 @@ void Worker::ioconnected()
             break;
         case DEVICE_ACTION_IDENTIFY:
             numCommands = 1;
+            printf("Sending ?\n");
             iodev.send("?\n");
             break;
 

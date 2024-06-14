@@ -62,7 +62,8 @@ WindowMain::WindowMain(QWidget *parent) :
 {
     ui->setupUi(this);
 
-#ifdef DEVELMODE
+//#ifdef DEVELMODE
+#if 1
     ConsoleInit();
     printf("Starting up\n");
 #endif
