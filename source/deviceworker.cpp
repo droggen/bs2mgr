@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <QTimer>
 #include <QTime>
+#include <QElapsedTimer>
 
 #include "deviceworker.h"
 
@@ -184,7 +185,7 @@ void Worker::doWorkDisonnect()
 void Worker::delay(int msec)
 {
     // Blocking delay
-    QTime time;
+    QElapsedTimer time;
 
     time.start();
     while(time.elapsed()<msec);
