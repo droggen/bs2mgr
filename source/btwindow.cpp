@@ -195,7 +195,7 @@ void BtWindow::populateTable(bool expandonly)
         ui->uitwPorts->setItem(i,5, newItem);
 
 
-        QBluetoothDeviceInfo::DataCompleteness c = bdi.at(i).serviceUuidsCompleteness();
+
         QList<QBluetoothUuid> siid = bdi.at(i).serviceUuids();
         QString siidstr="";
         printf("number of service uuid %d\n",siid.size());
@@ -205,6 +205,9 @@ void BtWindow::populateTable(bool expandonly)
             siidstr+=QString::number(siid.at(j).toUInt32());
             siidstr+=";";
         }
+#if 0
+// QT5 had serviceUuidsCompleteness() which does not exist anymore.
+        QBluetoothDeviceInfo::DataCompleteness c = bdi.at(i).serviceUuidsCompleteness();
         if(c==QBluetoothDeviceInfo::DataIncomplete)
         {
             if(siidstr=="")
@@ -214,7 +217,7 @@ void BtWindow::populateTable(bool expandonly)
         }
         if(c==QBluetoothDeviceInfo::DataUnavailable)
             siidstr+="N/A";
-
+#endif
 
         newItem = new QTableWidgetItem(siidstr);
         //newItem->setFlags(Qt::NoItemFlags);
@@ -292,7 +295,8 @@ QList<QString> BtWindow::getSelectedPorts()
             rows.append(j);
     }
 
-    qSort(rows);
+    // TODO: fix sorting
+    //qSort(rows);
 
     foreach(auto i,rows)
     {

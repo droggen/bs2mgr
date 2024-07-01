@@ -171,7 +171,8 @@ QList<QString> PortWindow::getSelectedPorts()
             rows.append(j);
     }
 
-    qSort(rows);
+    // TODO: fix sorting
+    //qSort(rows);
 
     foreach(auto i,rows)
     {
