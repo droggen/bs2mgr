@@ -4,16 +4,17 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-QT += serialport
-QT += bluetooth network
+QT += core gui
+QT += serialport network
+QT += bluetooth
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat
 
 winrt: QT -= serialport
 
-android: QT += androidextras
+#android: QT += androidextras
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QMAKE_CFLAGS = -Wno-unused-parameter
 
